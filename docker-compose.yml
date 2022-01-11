@@ -9,6 +9,9 @@ services:
     volumes:
       - ${MYSQL_CONF_FILE}:/etc/mysql/conf.d/mysql.cnf:ro
       - ${DATA_DIR}/mysql:/var/lib/mysql/:rw
+      - ${MYSQL_RUN_FILE}/mysqld:/var/run/mysqld/:rw
+      - ./logs/mysql:/var/log/mysql
+      - ./data/mysql:/data/mysqlback
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
@@ -48,8 +51,8 @@ services:
       - ${LOG_DIR}/php:/var/log/php
     restart: always
     links:
-      - "mydb"
-      - "myredis"
+      - mydb
+      - myredis
     cap_add:
       - SYS_PTRACE
     networks:
